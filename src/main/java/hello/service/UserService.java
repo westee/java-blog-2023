@@ -1,22 +1,13 @@
 package hello.service;
 
 public class UserService {
-    private Integer id;
-    private String name;
+    UserMapper userMapper;
 
-    public Integer getId() {
-        return id;
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public User getUser(Integer id) {
+        return userMapper.getUser(id);
     }
 }
