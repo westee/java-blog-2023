@@ -19,10 +19,11 @@ public class User {
         this.updatedAt = Instant.now();
     }
 
-    public User(Integer id, String username, String avatar, Instant createdAt, Instant updatedAt) {
+    public User(Integer id, String username, String encryptedPassword, String avatar, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.username = username;
         this.avatar = avatar;
+        this.encryptedPassword = encryptedPassword;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

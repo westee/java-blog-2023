@@ -1,6 +1,7 @@
 package hello.service;
 
 import hello.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,31 +9,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private Map<String, User> userPasswords = new ConcurrentHashMap<>();
 
-    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    UserMapper userMapper;
+
+    @Autowired
+    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserMapper userMapper) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.save("user", "password");
+        this.userMapper = userMapper;
+//        this.save("user", "user");
     }
 
     private void save(String username, String password) {
-        userPasswords.put(username, new User(1, "2", bCryptPasswordEncoder.encode(password))); ;
+        userMapper.insertUser(username, bCryptPasswordEncoder.encode(password));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (!userPasswords.containsKey(username)) {
+        User user = userMapper.getUserByUsername(username);
+        if (user == null) {
             throw new UsernameNotFoundException("用户名不存在");
         }
-
-        String password = userPasswords.get(username).getEncryptedPassword();
-        return new org.springframework.security.core.userdetails.User(username, password, Collections.emptyList());
+        return new org.springframework.security.core.userdetails.User(username, user.getEncryptedPassword(), Collections.emptyList());
     }
 
     public User getUserById(String id) {
@@ -40,6 +41,6 @@ public class UserService implements UserDetailsService {
     }
 
     public Object getUserByUsername(String name) {
-        return userPasswords.get(name);
+        return userMapper.getUserByUsername(name);
     }
 }

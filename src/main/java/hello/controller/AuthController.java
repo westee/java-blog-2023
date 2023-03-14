@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @RestController
 public class AuthController {
     UserService userService;
@@ -42,7 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public Result doLogin(@RequestBody UserNameAndPassword userNameAndPassword, HttpServletRequest request, HttpServletResponse response) {
+    public Result doLogin(@RequestBody UserNameAndPassword userNameAndPassword) {
         String username = userNameAndPassword.getUsername();
         String password = userNameAndPassword.getPassword();
         UserDetails userDetails;
