@@ -13,15 +13,14 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig  {
+public class WebSecurityConfig {
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/auth/**", "/auth/login",
-                                "/index.html", "/static/**").permitAll()
-                );
+        http.authorizeRequests(authorize -> authorize
+                .antMatchers("/", "/auth/**").permitAll()
+        );
 
         return http.build();
     }
