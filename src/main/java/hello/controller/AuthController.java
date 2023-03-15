@@ -1,8 +1,10 @@
 package hello.controller;
 
+import hello.entity.Result;
 import hello.entity.User;
 import hello.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -10,8 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 @RestController
 public class AuthController {
@@ -26,14 +27,14 @@ public class AuthController {
     }
 
     @RequestMapping("/")
-    public User getUser(@RequestParam("id") String id) {
+    public User getUser(@RequestParam("id") Integer id) {
         return userService.getUserById(id);
     }
 
     @GetMapping("/auth")
     public Result getStatus() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        if(name == "anonymousUser") {
+        if(Objects.equals(name, "anonymousUser")) {
             return new Result("fail", "未登录", false);
         } else {
             return new Result("true", "已经登录", true, userService.getUserByUsername(name));
@@ -64,54 +65,26 @@ public class AuthController {
         }
     }
 
-
-    private static class Result {
-        String status;
-        String msg;
-        boolean isLogin;
-        Object data;
-
-        public Result(String status, String msg, boolean isLogin) {
-            this(status, msg, isLogin, null);
+    @PostMapping("/auth/register")
+    public Result insertUser(@RequestBody UserNameAndPassword userNameAndPassword) {
+        if(Objects.isNull(userNameAndPassword.getPassword()) && Objects.isNull(userNameAndPassword.getUsername()) ) {
+            return Result.fail("参数错误");
         }
-
-        public Result(String status, String msg, boolean isLogin, Object data) {
-            this.status = status;
-            this.msg = msg;
-            this.isLogin = isLogin;
-            this.data = data;
+        try {
+            userService.save(userNameAndPassword.getUsername(), userNameAndPassword.getPassword());
+            return Result.success("注册成功");
+        } catch (DuplicateKeyException e) {
+            return Result.fail("用户名重复");
         }
+    }
 
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public String getMsg() {
-            return msg;
-        }
-
-        public void setMsg(String msg) {
-            this.msg = msg;
-        }
-
-        public boolean isLogin() {
-            return isLogin;
-        }
-
-        public void setLogin(boolean login) {
-            isLogin = login;
-        }
-
-        public Object getData() {
-            return data;
-        }
-
-        public void setData(Object data) {
-            this.data = data;
+    @GetMapping("/auth/logout")
+    public Result logout() {
+        if(Objects.equals(SecurityContextHolder.getContext().getAuthentication().getName(), "anonymousUser")) {
+            return Result.fail("用户尚未登录");
+        } else {
+            SecurityContextHolder.clearContext();
+            return Result.success("用户尚未登录");
         }
     }
 

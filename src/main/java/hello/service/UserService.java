@@ -23,7 +23,7 @@ public class UserService implements UserDetailsService {
 //        this.save("user", "user");
     }
 
-    private void save(String username, String password) {
+    public void save(String username, String password) {
         userMapper.insertUser(username, bCryptPasswordEncoder.encode(password));
     }
 
@@ -36,8 +36,8 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(username, user.getEncryptedPassword(), Collections.emptyList());
     }
 
-    public User getUserById(String id) {
-        return null;
+    public User getUserById(Integer id) {
+        return userMapper.getUser(id);
     }
 
     public Object getUserByUsername(String name) {
