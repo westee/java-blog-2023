@@ -3,15 +3,16 @@ package hello.controller;
 import hello.entity.Result;
 import hello.entity.User;
 import hello.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.util.Objects;
 
 @RestController
@@ -20,7 +21,7 @@ public class AuthController {
 
     AuthenticationManager authenticationManager;
 
-    @Autowired
+    @Inject
     public AuthController(UserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
@@ -33,10 +34,11 @@ public class AuthController {
 
     @GetMapping("/auth")
     public Result getStatus() {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        if(Objects.equals(name, "anonymousUser")) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(Objects.isNull(authentication)) {
             return new Result("fail", "未登录", false);
         } else {
+            String name = authentication.getName();
             return new Result("true", "已经登录", true, userService.getUserByUsername(name));
         }
     }
@@ -47,6 +49,7 @@ public class AuthController {
         String password = userNameAndPassword.getPassword();
         UserDetails userDetails;
         try {
+            userService.getUserByUsername(username);
             userDetails = userService.loadUserByUsername(username);
         } catch (Exception e) {
             return new Result("fail", e.getMessage(), false);
