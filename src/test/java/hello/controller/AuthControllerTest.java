@@ -65,7 +65,7 @@ class AuthControllerTest {
         MvcResult response = mvc.perform(MockMvcRequestBuilders.post("/auth/login")
                         .content(new ObjectMapper().writeValueAsString(usernameAndPassword)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(result -> Assertions.assertTrue(result.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("已经登录")))
+                .andExpect(result -> Assertions.assertTrue(result.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("登录成功")))
                 .andReturn();
 
         HttpSession session = response.getRequest().getSession();

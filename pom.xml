@@ -50,8 +50,8 @@
 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <version>8.0.32</version>
         </dependency>
 
@@ -114,30 +114,30 @@
 
             </plugin>
 
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>6.2.0</version>
-                <configuration>
-                    <url>jdbc:mysql://localhost:3306/blogs</url>
-                    <user>root</user>
-                    <password>root</password>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>test-database-setup</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>migrate</goal>
-                        </goals>
-                        <configuration>
-                            <url>jdbc:mysql://localhost:3306/blogs?useSSL=false&amp;allowPublicKeyRetrieval=true</url>
-                            <user>root</user>
-                            <password>root</password>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.flywaydb</groupId>-->
+<!--                <artifactId>flyway-maven-plugin</artifactId>-->
+<!--                <version>6.2.0</version>-->
+<!--                <configuration>-->
+<!--                    <url>jdbc:mysql://localhost:3306/blogs</url>-->
+<!--                    <user>root</user>-->
+<!--                    <password>root</password>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>test-database-setup</id>-->
+<!--                        <phase>pre-integration-test</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>migrate</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <url>jdbc:mysql://localhost:3306/blogs?useSSL=false&amp;allowPublicKeyRetrieval=true</url>-->
+<!--                            <user>root</user>-->
+<!--                            <password>root</password>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
