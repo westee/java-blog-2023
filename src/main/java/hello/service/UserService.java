@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
         return userMapper.getUser(id);
     }
 
-    public Object getUserByUsername(String name) {
+    public User getUserByUsername(String name) {
         return userMapper.getUserByUsername(name);
     }
 }

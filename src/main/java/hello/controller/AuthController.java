@@ -35,7 +35,9 @@ public class AuthController {
     @GetMapping("/auth")
     public Result getStatus() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(Objects.isNull(authentication)) {
+        String username =  Objects.nonNull(authentication) ? authentication.getName() : "anonymousUser";
+
+        if(username.equals("anonymousUser")) {
             return new Result("fail", "未登录", false);
         } else {
             String name = authentication.getName();
