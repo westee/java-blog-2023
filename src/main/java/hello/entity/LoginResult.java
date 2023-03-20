@@ -1,12 +1,16 @@
 package hello.entity;
 
 public class LoginResult extends Result<User> {
+    boolean isLogin;
+
     public LoginResult(String status, String msg, boolean isLogin) {
-        super(status, msg, isLogin);
+        super(status, msg);
+        this.isLogin = isLogin;
     }
 
     public LoginResult(String status, String msg, boolean isLogin, User data) {
-        super(status, msg, isLogin, data);
+        super(status, msg, data);
+        this.isLogin = isLogin;
     }
 
     public static LoginResult fail(String msg) {
@@ -21,4 +25,11 @@ public class LoginResult extends Result<User> {
         return new LoginResult(status, msg, isLogin);
     }
 
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
 }

@@ -9,7 +9,7 @@ public class Blog {
     @JsonIgnore
     private Integer userId;
     private String title;
-    private String desc;
+    private String description;
     private String content;
     private Instant updatedAt;
     private Instant createdAt;
@@ -39,12 +39,12 @@ public class Blog {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.description = desc;
     }
 
     public String getContent() {
