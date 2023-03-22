@@ -35,8 +35,9 @@ public class BlogDao {
 
     }
 
-    public int insertBlog(Blog fromParam) {
-        return session.selectOne("insertBlog", fromParam);
+    public Blog insertBlog(Blog blog) {
+        session.insert("insertBlog", blog);
+        return getBlogById(blog.getId());
     }
 
     public BlogListResult deleteBlog(int blogId) {

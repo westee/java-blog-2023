@@ -35,9 +35,7 @@ public class BlogService {
     }
 
     public Blog insertBlog(Blog fromParam) {
-        int id = blogDao.insertBlog(fromParam);
-        return blogDao.getBlogById(id);
-//        BlogResult.okBlogResult();
+        return blogDao.insertBlog(fromParam);
     }
 
     public Blog getBlogById(int blogId) {

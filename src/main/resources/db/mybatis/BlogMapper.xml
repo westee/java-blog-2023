@@ -22,10 +22,10 @@
         select * from blog where id = #{blogId}
     </select>
 
-    <insert id="insertBlog" parameterType="hello.entity.Blog">
+    <insert id="insertBlog" parameterType="hello.entity.Blog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO blog ( user_id, title, description, content, updated_at, created_at )
         VALUES
-            (#{user_id}, #{title}, #{desc}, #{content}, now(), now());
+            (#{userId}, #{title}, #{description}, #{content}, now(), now());
     </insert>
 
     <delete id="deleteBlog" parameterType="java.lang.Integer">

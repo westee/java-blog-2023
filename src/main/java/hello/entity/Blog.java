@@ -1,19 +1,16 @@
 package hello.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.Instant;
 
 public class Blog {
     private Integer id;
-    @JsonIgnore
-    private Integer userId;
     private String title;
     private String description;
     private String content;
     private Instant updatedAt;
     private Instant createdAt;
     private User user;
+    private Integer userId;
 
     public Integer getId() {
         return id;
@@ -23,12 +20,14 @@ public class Blog {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getUserId() {
+        return userId != null ?
+                userId :
+                user == null ? null : user.getId();
     }
 
     public String getTitle() {

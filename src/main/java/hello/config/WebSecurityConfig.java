@@ -28,14 +28,14 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         return http.build();
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://blog.sun-rising.net/")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowCredentials(true)
-                .maxAge(3600);
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://blog.sun-rising.net/","http://127.0.0.1:5173/")
+//                .allowedMethods("*")
+//                .allowCredentials(true)
+//                .maxAge(3600);
+//    }
 
     @Bean
     AuthenticationManager authenticationManager(UserDetailsService myUserDetailsService, BCryptPasswordEncoder encoder) {
