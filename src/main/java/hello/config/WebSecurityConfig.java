@@ -31,8 +31,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOrigins("http://blog.sun-rising.net/")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowCredentials(true)
                 .maxAge(3600);
     }
 
