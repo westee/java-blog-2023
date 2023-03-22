@@ -13,7 +13,7 @@ import java.util.Random;
 
 @Service
 public class UserService implements UserDetailsService {
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     UserMapper userMapper;
 
@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
         userMapper.insertUser(username, bCryptPasswordEncoder.encode(password), avatar);
     }
 
-    private static String getAvatar() {
+    public String getAvatar() {
         String[] members = {"icon-ange.svg", "icon-cat.svg", "icon-cry.svg", "icon-erm.svg", "icon-excited.svg", "icon-frown.svg", "icon-glasses-smirk.svg", "icon-kiss.svg", "icon-moustache2.svg", "icon-moustache.svg", "icon-ok.svg", "icon-smooch.svg", "icon-tongue.svg", "icon-unsure.svg", "icon-wondering.svg"};
         Random random = new Random();
         int index = random.nextInt(members.length);

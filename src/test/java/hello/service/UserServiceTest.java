@@ -27,9 +27,11 @@ class UserServiceTest {
 
     @Test
     void save() {
+        UserService spy = Mockito.spy(userService);
         Mockito.when(bCryptPasswordEncoder.encode("123")).thenReturn("456");
-        userService.save(username, "123");
-        Mockito.verify(userMapper).insertUser(username,"456");
+        Mockito.when(spy.getAvatar()).thenReturn("avatar");
+        spy.save(username, "123");
+        Mockito.verify(userMapper).insertUser(username,"456", "avatar");
     }
 
     @Test
